@@ -14,7 +14,7 @@ app.http('message', {
                 'Content-Type': 'application/json'
             },
 
-            body: JSON.stringify({ message: 'Hello, from the API!' })
+            body: JSON.stringify({ message: `Hello, ${name}!` })
 
         };
     }
