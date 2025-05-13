@@ -8,6 +8,14 @@ app.http('message', {
 
         const name = request.query.get('name') || await request.text() || 'world';
 
-        return { body: `Hello, ${name}!` };
+        return {
+
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({ message: 'Hello, from the API!' })
+
+        };
     }
 });
