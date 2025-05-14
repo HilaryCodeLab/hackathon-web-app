@@ -28,7 +28,7 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch("/api/getRecommendations", {
+      const response = await fetch("/api/message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
