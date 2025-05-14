@@ -43,7 +43,7 @@ function App() {
         throw new Error(`API call failed with status: ${response.status}`);
       }
       const data = await response.json();
-      setRecommendations(data.recommendations);
+      setRecommendations(data.reply);
     } catch (error) {
       setError("Failed to get recommendations! Please try again");
       console.log("error calling api: ", error);
@@ -87,6 +87,7 @@ function App() {
           {loading ? "Getting Recommendations..." : "Submit"}
         </button>
       </form>
+      
       {recommendations && (
         <div style={{ marginTop: "2rem", background: "#f9f9f9", padding: "1rem" }}>
           <h2>Recommendations</h2>
