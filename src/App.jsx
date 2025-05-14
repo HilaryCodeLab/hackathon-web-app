@@ -1,33 +1,52 @@
 import React, { useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState("I am going to Paris, what should I see?");
-  const [reply, setReply] = useState("");
+  const [formData, setFormData] = useState({
+    skills: [],
+    interests: [],
+    currentRole: "",
+  });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [recommendations, setRecommendations] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "skills" || name === "interests") {
+      // value is converted into array
+      const items = value.split(",").map((item) => item.trim());
+      setFormData((prev) => ({ ...prev, [name]: items }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setRecommendations(null);
     setLoading(true);
-    setError("");
-    setReply("");
+    setError(null);
 
     try {
-      const response = await fetch("/api/message", {
+      const response = await fetch("/api/getRecommendations", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          skills: formData.skills.map((s) => s.trim()),
+          interests: formData.interests.map((i) => i.trim()),
+          currentRole: formData.currentRole,
+        }),
       });
-
       if (!response.ok) {
-        throw new Error("Failed to get response from API.");
+        throw new Error(`API call failed with status: ${response.status}`);
       }
-
       const data = await response.json();
-      setReply(data.reply);
-    } catch (err) {
-      console.error("Error:", err);
-      setError("There was a problem getting a response.");
+      setRecommendations(data.recommendations);
+    } catch (error) {
+      setError("Failed to get recommendations! Please try again");
+      console.log("error calling api: ", error);
     } finally {
       setLoading(false);
     }
@@ -35,27 +54,52 @@ function App() {
 
   return (
     <div style={{ maxWidth: "600px", margin: "2rem auto", padding: "1rem" }}>
-      <h1>AI Travel Assistant</h1>
+      <h1>AI Career Advisor</h1>
       <form onSubmit={handleSubmit}>
-        <textarea
-          rows="4"
-          style={{ width: "100%" }}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button type="submit" disabled={loading} style={{ marginTop: "1rem" }}>
-          {loading ? "Asking..." : "Ask"}
+        <div>
+          <label>Current Role</label>
+          <input
+            name="currentRole"
+            value={formData.currentRole}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Skills</label>
+          <input
+            name="skills"
+            value={formData.skills.join(", ")}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Interests</label>
+          <input
+            name="interests"
+            value={formData.interests.join(", ")}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? "Getting Recommendations..." : "Submit"}
         </button>
       </form>
-
-      {reply && (
+      {recommendations && (
         <div style={{ marginTop: "2rem", background: "#f9f9f9", padding: "1rem" }}>
-          <strong>Assistant:</strong>
-          <p>{reply}</p>
+          <h2>Recommendations</h2>
+          <p>{recommendations}</p>
         </div>
       )}
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && (
+        <div style={{ marginTop: "1rem", color: "red" }}>
+          <strong>{error}</strong>
+        </div>
+      )}
+
     </div>
   );
 }
