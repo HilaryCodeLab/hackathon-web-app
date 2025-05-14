@@ -15,6 +15,12 @@ app.http("message", {
         try {
             const body = await request.json();
             const { skills, interests, currentRole } = body;
+            const client = new AzureOpenAI({
+                endpoint,
+                apiKey,
+                apiVersion,
+                deployment
+            });
 
             const prompt = `You are a useful career guide for women in tech. A user has shared her skills and interests. Based on this, recommend 3-5 relevant certifications,
 training programs, bootcamps or online courses focusing on the following areas: AI, Data, Cybersecurity, Software and Cloud.
