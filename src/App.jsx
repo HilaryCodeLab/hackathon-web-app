@@ -54,7 +54,7 @@ function App() {
         throw new Error(`API call failed with status: ${res.status}`);
       }
 
-      const data = await res.json();
+      // const data = await res.json();
     } catch (error) {
       setJobSearchError("Failed to fetch jobs! Please try again");
       console.error("error calling fetchJobs API:", error);
