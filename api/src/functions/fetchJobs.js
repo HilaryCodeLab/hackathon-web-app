@@ -18,7 +18,7 @@ app.http('fetchJobs', {
         },
         body: JSON.stringify({
           page:0,
-          limit:25,
+          limit:3,
           job_country_code_or,
           posted_at_max_age_days,
           job_title_or,
