@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
+    "node-fetch": "^2.7.0",
     "openai": "^4.98.0"
   },
   "main": "src/{index.js,functions/*.js}"
