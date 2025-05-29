@@ -46,7 +46,7 @@ function App() {
     if (country) filters.job_country_code_or = [country];
 
     try {
-      const res = await fetch("/api/fetchJobs", {
+      const res = await fetch("/api/generateCareerMap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(filters),
@@ -195,19 +195,7 @@ function App() {
         </div>
       )}
 
-      {jobs.length > 0 && (
-        <div style={{ marginTop: "2rem" }}>
-          <h3>Matching Jobs</h3>
-          <ul>
-            {jobs.map((job, idx) => (
-              <li key={idx}>
-                <strong>{job.job_title}</strong> – {job.company_name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
+     
     </div>
   );
 }
