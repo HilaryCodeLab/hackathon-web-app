@@ -14,7 +14,6 @@ function App() {
   const [jobTitle, setJobTitle] = useState("");
   const [seniority, setSeniority] = useState("");
   const [country, setCountry] = useState("");
-  const [jobs, setJobs] = useState([]);
   const [jobSearchError, setJobSearchError] = useState(null);
 
   const countryOptions = [
@@ -30,7 +29,6 @@ function App() {
    // 🔽 JOB FILTER FORM HANDLER
    const handleJobSearch = async (e) => {
     e.preventDefault();
-    setJobs([]);
     setJobSearchError(null);
 
     if (!jobTitle.trim()) {
@@ -57,7 +55,6 @@ function App() {
       }
 
       const data = await res.json();
-      setJobs(data.data || []);
     } catch (error) {
       setJobSearchError("Failed to fetch jobs! Please try again");
       console.error("error calling fetchJobs API:", error);
