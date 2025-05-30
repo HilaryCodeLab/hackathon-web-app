@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import {ReactFlow, MarkerType } from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+
+
 
 function App() {
   const [formData, setFormData] = useState({
@@ -16,18 +20,38 @@ function App() {
   const [country, setCountry] = useState("");
   const [jobSearchError, setJobSearchError] = useState(null);
 
+  // for Reactflow components
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
+
+  // for country filters
   const countryOptions = [
+    { code: "AU", name: "Australia" },
+    { code: "BD", name: "Bangladesh" },
+    { code: "BN", name: "Brunei" },
+    { code: "KH", name: "Cambodia" },
+    { code: "CA", name: "Canada" },
+    { code: "CN", name: "China" },
+    { code: "IN", name: "India" },
+    { code: "ID", name: "Indonesia" },
+    { code: "JP", name: "Japan" },
+    { code: "KR", name: "Korea" }, // South Korea (official code is KR)
+    { code: "LA", name: "Laos" },
+    { code: "MY", name: "Malaysia" },
+    { code: "MM", name: "Myanmar" },
+    { code: "NP", name: "Nepal" },
+    { code: "NZ", name: "New Zealand" },
+    { code: "PH", name: "Philippines" },
+    { code: "SG", name: "Singapore" },
+    { code: "LK", name: "Sri Lanka" },
+    { code: "TH", name: "Thailand" },
     { code: "US", name: "United States" },
     { code: "GB", name: "United Kingdom" },
-    { code: "IN", name: "India" },
-    { code: "CA", name: "Canada" },
-    { code: "DE", name: "Germany" },
-    { code: "AU", name: "Australia" },
-    // Add more as needed
+    { code: "VN", name: "Vietnam" }
   ];
-
-   // 🔽 JOB FILTER FORM HANDLER
-   const handleJobSearch = async (e) => {
+ 
+  // JOB FILTER FORM HANDLER
+  const handleJobSearch = async (e) => {
     e.preventDefault();
     setJobSearchError(null);
 
@@ -54,7 +78,23 @@ function App() {
         throw new Error(`API call failed with status: ${res.status}`);
       }
 
-      // const data = await res.json();
+      const data = await res.json();
+      if (data.nodes && data.edges) {
+        // Add arrow markers to edges
+        const edgesWithArrows = data.edges.map((edge) => ({
+          ...edge,
+          style: { stroke: '#FF0072' },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            color: '#FF0072'
+          },
+        }));
+
+        setNodes(data.nodes);
+        setEdges(edgesWithArrows);
+      } else {
+        setJobSearchError("Unexpected response format.");
+      }
     } catch (error) {
       setJobSearchError("Failed to fetch jobs! Please try again");
       console.error("error calling fetchJobs API:", error);
@@ -153,8 +193,8 @@ function App() {
         </div>
       )}
 
-      <h2>Search Jobs</h2>
-      <form onSubmit={handleJobSearch}>
+      <h2>Explore Career Path</h2>
+      <form onSubmit={handleJobSearch} style={{ marginBottom: "1rem" }}>
         <div>
           <label>Job Title (required)</label>
           <input
@@ -192,7 +232,23 @@ function App() {
         </div>
       )}
 
-     
+      {nodes.length > 0 && edges.length > 0 && (
+        <div style={{ height: "100vh", border: "1px solid #ccc", marginTop: "2rem" }}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            fitView
+            nodesDraggable={false}
+            nodesConnectable={false}
+            elementsSelectable={false}
+            panOnDrag={false}
+            zoomOnScroll={true}
+            proOptions={{ hideAttribution: true }}
+          />
+        </div>
+      )}
+
+
     </div>
   );
 }
