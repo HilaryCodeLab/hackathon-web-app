@@ -4,8 +4,8 @@ const { AzureOpenAI } = require("openai");
 
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiKey = process.env.AZURE_OPENAI_API_KEY;
-const apiVersion = "2024-04-01-preview";
-const deployment = "gpt-4"; // <-- use your actual deployment name
+const apiVersion = "2024-12-01-preview";
+const deployment = "gpt-4.1-nano"; // <-- use your actual deployment name
 
 app.http('generateCareerMap', {
   methods: ['POST'],
@@ -71,6 +71,11 @@ Example structure:
   ]
 }
 
+Return ONLY valid JSON. Do NOT include:
+- Markdown formatting (no \`\`\`)
+- Comments
+- Any explanation or extra text
+
 Here are the job listings:
 ${JSON.stringify(data.data.slice(0,3), null, 2)}
       `;
@@ -97,21 +102,11 @@ ${JSON.stringify(data.data.slice(0,3), null, 2)}
       });
 
       const content = gptResponse.choices[0].message.content;
-      // Extract JSON block between ```json and ```
-      const jsonMatch = content.match(/```json\s*([\s\S]*?)\s*```/);
-
-      if (!jsonMatch || !jsonMatch[1]) {
-        return {
-          status: 500,
-          body: `Failed to extract JSON from GPT response:\n${content}`
-        };
-      }
-
       let careerMapJSON;
 
       // Try to parse JSON from GPT response
       try {
-        careerMapJSON = JSON.parse(jsonMatch[1]);
+        careerMapJSON = JSON.parse(content);
         return {
           status: 200,
           jsonBody: careerMapJSON

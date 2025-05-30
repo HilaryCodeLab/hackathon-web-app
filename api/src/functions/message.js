@@ -3,9 +3,9 @@ const { app } = require('@azure/functions');
 
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiKey = process.env.AZURE_OPENAI_API_KEY;
-const apiVersion = "2024-04-01-preview";
-const deployment = "gpt-4";
-const modelName = "gpt-4";
+const apiVersion = "2024-12-01-preview";
+const deployment = "gpt-4.1-nano";
+const modelName = "gpt-4.1-nano";
 
 
 app.http("message", {
