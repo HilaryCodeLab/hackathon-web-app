@@ -1,0 +1,126 @@
+/* Container layout */
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: sans-serif;
+    line-height: 1.5;
+  }
+  
+  /* Section spacing */
+  .section {
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* Form layout */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  /* Form labels */
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  /* Inputs and selects */
+  input,
+  select {
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Buttons */
+  button,
+  .toggle-mode-button {
+    background-color: #0066cc;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover,
+  .toggle-mode-button:hover {
+    background-color: #004999;
+  }
+  
+  /* Button grouping */
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .career-map-button-group {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  /* Toggle mode button styles */
+  .toggle-mode-button.dark {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* Error text */
+  .error {
+    color: red;
+    margin-top: 0.5rem;
+  }
+  
+  /* Career map container */
+  .career-map-container {
+    height: 800px;
+    width: 100%;
+    margin-top: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    overflow: auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+  }
+  
+  /* Narration box */
+  .narration-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #eef;
+    border-left: 4px solid #0066cc;
+    border-radius: 8px;
+  }
+  
+  /* React Flow dark mode */
+  .reactflow-dark {
+    background-color: #1e1e1e;
+    color: #fff;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 600px) {
+    .container {
+      padding: 1rem 0.5rem;
+    }
+  
+    .button-group {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+  

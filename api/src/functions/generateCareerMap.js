@@ -47,7 +47,7 @@ app.http('generateCareerMap', {
       }
 
       const data = await response.json();
-
+      
       // Step 2: Construct prompt
       const prompt = `
       You are an AI career advisor. Based on the following live job listings, create a visual career path using ReactFlow format (nodes and edges). The format should include:
