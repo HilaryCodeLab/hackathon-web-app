@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {ReactFlow, MarkerType } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-
+import DownloadCareerCSV from "./DownloadCareerCSV"; // adjust path as needed
 
 
 function App() {
@@ -234,6 +234,7 @@ function App() {
 
       {nodes.length > 0 && edges.length > 0 && (
         <div style={{ height: "100vh", border: "1px solid #ccc", marginTop: "2rem" }}>
+          <DownloadCareerCSV careerMap={{nodes}}/>
           <ReactFlow
             nodes={nodes}
             edges={edges}

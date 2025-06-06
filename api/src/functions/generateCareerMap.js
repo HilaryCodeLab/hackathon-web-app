@@ -50,35 +50,47 @@ app.http('generateCareerMap', {
 
       // Step 2: Construct prompt
       const prompt = `
-You are an AI career advisor. Based on the following live job listings, create a visual career path using ReactFlow format (nodes and edges). The format should include:
-
-1. Node 'id' (unique string)
-2. Node 'type' (e.g., 'default')
-3. Node 'data.label' – the job title and company
-4. Node 'position' – { x, y } to lay out nodes vertically
-
-Connect jobs in logical progressions (e.g., junior → mid → senior) or by related skills.
-
-Example structure:
-{
-  "nodes": [
-    { "id": "1", "type": "default", "data": { "label": "Junior Frontend Developer at A" }, "position": { "x": 0, "y": 0 }},
-    ...
-  ],
-  "edges": [
-    { "id": "e1-2", "source": "1", "target": "2", "type": "smoothstep" },
-    ...
-  ]
-}
-
-Return ONLY valid JSON. Do NOT include:
-- Markdown formatting (no \`\`\`)
-- Comments
-- Any explanation or extra text
-
-Here are the job listings:
-${JSON.stringify(data.data.slice(0,3), null, 2)}
+      You are an AI career advisor. Based on the following live job listings, create a visual career path using ReactFlow format (nodes and edges). The format should include:
+      
+      1. Node 'id' (unique string)
+      2. Node 'type' (e.g., 'default')
+      3. Node 'data.label' – the job title and company
+      4. Node 'data.note' – a short narrative milestone or decision (e.g., "Started after bootcamp, pivoted after learning JS")
+      5. Node 'data.year' – an estimated year when this role might be achieved (e.g., 2023)
+      6. Node 'position' – { x, y } to lay out nodes vertically
+      
+      Connect jobs in logical progressions (e.g., junior → mid → senior) or by related skills.
+      
+      Example structure:
+      {
+        "nodes": [
+          {
+            "id": "1",
+            "type": "default",
+            "data": {
+              "label": "Junior Frontend Developer at A",
+              "note": "Started after bootcamp",
+              "year": 2022
+            },
+            "position": { "x": 0, "y": 0 }
+          },
+          ...
+        ],
+        "edges": [
+          { "id": "e1-2", "source": "1", "target": "2", "type": "smoothstep" },
+          ...
+        ]
+      }
+      
+      Return ONLY valid JSON. Do NOT include:
+      - Markdown formatting (no \`\`\`)
+      - Comments
+      - Any explanation or extra text
+      
+      Here are the job listings:
+      ${JSON.stringify(data.data.slice(0, 3), null, 2)}
       `;
+      
 
       const client = new AzureOpenAI({
         endpoint,
