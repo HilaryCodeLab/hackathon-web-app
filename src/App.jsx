@@ -6,8 +6,8 @@ import "./App.css";
 
 function App() {
   const [formData, setFormData] = useState({
-    skills: [],
-    interests: [],
+    skills: "",
+    interests: "",
     currentRole: "",
   });
   const [loading, setLoading] = useState(false);
@@ -56,12 +56,7 @@ function App() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "skills" || name === "interests") {
-      const items = value.split(",").map((item) => item.trim());
-      setFormData((prev) => ({ ...prev, [name]: items }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -70,11 +65,21 @@ function App() {
     setError(null);
     setRecommendations(null);
 
+    // Convert comma-separated strings to arrays
+    const skillsArray = formData.skills.split(",").map((s) => s.trim()).filter(Boolean);
+    const interestsArray = formData.interests.split(",").map((i) => i.trim()).filter(Boolean);
+
+    const payload = {
+      currentRole: formData.currentRole,
+      skills: skillsArray,
+      interests: interestsArray,
+    };
+
     try {
       const res = await fetch("/api/message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) throw new Error("API failed");
@@ -164,11 +169,11 @@ function App() {
         </div>
         <div>
           <label>Skills (comma-separated)</label>
-          <input name="skills" value={formData.skills.join(", ")} onChange={handleChange} required />
+          <input name="skills" value={formData.skills} onChange={handleChange} required />
         </div>
         <div>
           <label>Interests (comma-separated)</label>
-          <input name="interests" value={formData.interests.join(", ")} onChange={handleChange} required />
+          <input name="interests" value={formData.interests} onChange={handleChange} required />
         </div>
         <div className="button-group">
           <button type="submit" disabled={loading}>
@@ -187,7 +192,7 @@ function App() {
 
 
 
-      <h2 style={{ marginTop: "2rem" }}>Explore Career Path</h2>
+      <h1>Explore Career Path</h1>
 
       <form onSubmit={handleJobSearch}>
         <div>
@@ -261,6 +266,7 @@ function App() {
           <h3>Narration</h3>
           <p><strong>{nodes[narrationIndex].data.label}</strong></p>
           <p>{nodes[narrationIndex].data.note}</p>
+          <p>{nodes[narrationIndex].data.year}</p>
           <div className="button-group">
             <button onClick={() => setNarrationIndex((prev) => Math.max(prev - 1, 0))} disabled={narrationIndex === 0}>Previous</button>
             <button onClick={() => setNarrationIndex((prev) => Math.min(prev + 1, nodes.length - 1))} disabled={narrationIndex === nodes.length - 1}>Next</button>
