@@ -264,6 +264,15 @@ function App() {
       {isNarrating && nodes.length > 0 && (
         <div className="narration-container">
           <h3>Narration</h3>
+          {/* ✅ Progress Bar */}
+          <div className="progress-wrapper">
+            <div
+              className="progress-bar"
+              style={{
+                width: `${((narrationIndex + 1) / nodes.length) * 100}%`,
+              }}
+            />
+          </div>
           <p><strong>{nodes[narrationIndex].data.label}</strong></p>
           <p>{nodes[narrationIndex].data.note}</p>
           <p>{nodes[narrationIndex].data.year}</p>
