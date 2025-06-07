@@ -27,6 +27,8 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(false);
 
+
+
   const countryOptions = [
     { code: "AU", name: "Australia" },
     { code: "BD", name: "Bangladesh" },
@@ -100,6 +102,7 @@ function App() {
     if (seniority) filters.job_seniority_or = [seniority];
     if (country) filters.job_country_code_or = [country];
 
+
     try {
       const res = await fetch("/api/generateCareerMap", {
         method: "POST",
@@ -132,8 +135,8 @@ function App() {
     ...node,
     style: {
       ...node.style,
-      backgroundColor: darkMode ? "#fff":"#1e1e1e",
-      color: darkMode ? "#000":"#fff",
+      backgroundColor: darkMode ? "#fff" : "#1e1e1e",
+      color: darkMode ? "#000" : "#fff",
       border: index === narrationIndex && isNarrating ? "3px solid #FF0072" : undefined,
       padding: 16,
       minWidth: 180,
@@ -174,8 +177,15 @@ function App() {
         </div>
       </form>
 
-      {recommendations && <p style={{ marginTop: "1rem" }}>{recommendations}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {recommendations && (
+        <div className="narration-container">
+          {recommendations.split("\n\n").map((item, index) => (
+            <p key={index}>{item}</p>
+          ))}
+        </div>
+      )}
+
+
 
       <h2 style={{ marginTop: "2rem" }}>Explore Career Path</h2>
 
@@ -206,7 +216,9 @@ function App() {
         </div>
         <div className="button-group">
 
-          <button type="submit"> Search </button>
+          <button type="submit">
+            Search
+          </button>
 
         </div>
 

@@ -22,29 +22,34 @@ app.http("message", {
                 deployment
             });
 
-            const prompt = `You are a useful career guide for women in tech. A user has shared her skills and interests. Based on this, recommend 3-5 relevant certifications,
-training programs, bootcamps or online courses focusing on the following areas: AI, Data, Cybersecurity, Software and Cloud.
+            const prompt = `You are a helpful career guide for women in tech. A user has shared her skills and interests. Based on this, recommend 3–5 relevant certifications, training programs, bootcamps, or online courses in these areas:
+
+- AI (Artificial Intelligence)
+- Data (Data Science, Data Engineering, Machine Learning)
+- Cybersecurity (Network Security, Ethical Hacking, Risk Management)
+- Software (Software Development, Application Development, Software Engineering)
+- Cloud (Cloud Architecture, Cloud Engineering, Cloud Security)
 
 User Input:
-- Current role : ${currentRole}
-- Skills: ${skills.join(",")}
-- Interests: ${interests.join(",")}
+- Current role: ${currentRole}
+- Skills: ${skills.join(", ")}
+- Interests: ${interests.join(", ")}
 
-Recommendations should focus on:
-1. AI (Artificial Intelligence)
-2. Data (Data Science, Data Engineering, Machine Learning)
-3. Cybersecurity (Network Security, Ethical Hacking, Risk Management)
-4. Software (Software Development, Application Development, Software Engineering)
-5. Cloud (Cloud Architecture, Cloud Engineering, Cloud Security)
+Please provide:
+- Recommended roles or specializations aligned with the user's skills/interests
+- Specific learning resources (e.g., Microsoft Learn, Coursera, edX, AWS Training, etc.)
+- Optional certifications that support career advancement
+- A short, clear rationale for each recommendation
 
-Provide:
-1. Recommended roles or specializations within these areas
-2. Specific learning resources, mentioning platforms like Microsoft Learn, Coursera, edX, AWS training and certification, etc.
-3. Optional certifications that align with the areas of interest
-4. A brief rationale for each recommendation
+**Format your response as a numbered list, using this style:**
 
-Please prioritize resources and certifications that will help user advance in these fields.
-`;
+1. [Title]: [Short recommendation and platform]. [Optional certification].  
+   [One-sentence rationale].
+
+2. [Title]: ...
+
+**Add two line breaks (\\n\\n) between each numbered item for clarity. Keep it concise.**`;
+
 
             const response = await client.chat.completions.create({
                 messages: [
