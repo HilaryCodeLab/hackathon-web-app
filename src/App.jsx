@@ -182,6 +182,8 @@ function App() {
         </div>
       </form>
 
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       {recommendations && (
         <div className="narration-container">
           {recommendations.split("\n\n").map((item, index) => (
