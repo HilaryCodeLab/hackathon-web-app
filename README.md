@@ -1,5 +1,4 @@
 # AI Career Compass  
-
 This web application is developed for Sponsors in Tech, a non-profit organisation, with the goal of providing career guidance—particularly for women in the APAC region—seeking to enter the tech industry. It leverages Generative AI technology to deliver tailored recommendations and visual guidance.
 
 ## Core Features
@@ -21,5 +20,5 @@ This web application is developed for Sponsors in Tech, a non-profit organisatio
 - Azure Functions
 - Azure Open AI (GPT 4.1 nano)
 
-## Logical System Architecture
-![Diagram of the system architecture](/assets/images/architecture_diagram_2.0.png)
+## System Flow
+![Diagram of the system architecture](/assets/images/sys_flow.png)
